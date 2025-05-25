@@ -1,7 +1,12 @@
-from django.urls import path
-from .views import FileListCreateView, FileDeleteView
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('files/', FileListCreateView.as_view(), name='file-list-create'),
-    path('files/<int:pk>/', FileDeleteView.as_view(), name='file-delete'),
+    path('admin/', admin.site.urls),
+    path('api/', include('files.urls')),
 ]
+
+# Serve media files in all environments (for testing/deployment convenience)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
